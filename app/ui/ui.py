@@ -41,7 +41,7 @@ class ChatUI:
 
         if "messages" not in st.session_state:
             st.session_state.messages = [
-                {"role": "assistant", "content": "何かございましたか？"}
+                {"role": "assistant", "content": "何かございましたか？マイクを押してお話ください。"}
             ]
         if "voice_processed" not in st.session_state:
             st.session_state.voice_processed = False
@@ -65,7 +65,14 @@ class ChatUI:
         if "speak_text" in st.session_state:
             self.audio_output.speak(st.session_state.pop("speak_text"))
 
-        audio = self.voice.record_audio()
+        mic_col, rate_col = st.columns([3, 1])
+        with mic_col:
+            audio = self.voice.record_audio()
+        with rate_col:
+            with st.popover("評価"):
+                st.markdown("★5")
+                st.markdown("神対応でした。")
+                st.button("OK", key="rate_ok")
 
         if len(audio) > 0:
             st.session_state.last_audio = audio
