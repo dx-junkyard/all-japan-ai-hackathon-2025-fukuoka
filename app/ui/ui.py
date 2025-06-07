@@ -37,6 +37,7 @@ class ChatUI:
 
     def run(self):
         st.set_page_config(page_title="AI チャットアプリ", page_icon="🤖")
+        st.image("static/robopon.png")
 
         if "messages" not in st.session_state:
             st.session_state.messages = [
@@ -64,19 +65,7 @@ class ChatUI:
         if "speak_text" in st.session_state:
             self.audio_output.speak(st.session_state.pop("speak_text"))
 
-        prompt = st.chat_input("メッセージを入力...")
         audio = self.voice.record_audio()
-
-        if prompt:
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with st.chat_message("user"):
-                st.markdown(prompt)
-
-            reply = self.call_api(prompt)
-            st.session_state.messages.append({"role": "assistant", "content": reply})
-            with st.chat_message("ai"):
-                st.markdown(reply)
-            st.session_state.speak_text = reply
 
         if len(audio) > 0:
             st.session_state.last_audio = audio
