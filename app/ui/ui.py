@@ -41,7 +41,7 @@ class ChatUI:
 
         if "messages" not in st.session_state:
             st.session_state.messages = [
-                {"role": "assistant", "content": "何かございましたか？"}
+                {"role": "assistant", "content": "何かございましたか？マイクを押してお話ください。"}
             ]
         if "voice_processed" not in st.session_state:
             st.session_state.voice_processed = False
