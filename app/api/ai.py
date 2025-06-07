@@ -32,12 +32,23 @@ class AIClient:
             f"AIClient initialized with model: {model} and endpoint: {self.api_url}"
         )
 
-    def create_response(self, user_message: str) -> str:
+    def create_response(self, user_message: str, history=None) -> str:
         """
         ユーザー全体の発言ログを要約する（興味・知識・スキルの傾向など）。
         """
 
+        history_text = ""
+        if history:
+            formatted = []
+            for m in history:
+                role = "ユーザー" if m.get("role") == "user" else "AI"
+                content = m.get("content", "")
+                formatted.append(f"{role}: {content}")
+            history_text = "\n".join(formatted)
+
         prompt = self.prompt_template.format(user_message=user_message)
+        if history_text:
+            prompt = f"{history_text}\n{prompt}"
         logger.info(f"Prompt sent to LLM: {prompt}")
 
         try:
