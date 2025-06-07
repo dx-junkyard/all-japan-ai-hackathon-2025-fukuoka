@@ -1,4 +1,5 @@
 import os
+import base64
 import requests
 import streamlit as st
 from dotenv import load_dotenv
@@ -37,6 +38,10 @@ class AudioOutput:
             return
         try:
             audio = self._synthesize(text)
-            st.audio(audio, format="audio/wav")
+            encoded = base64.b64encode(audio).decode("utf-8")
+            audio_html = (
+                f'<audio autoplay controls src="data:audio/wav;base64,{encoded}"></audio>'
+            )
+            st.markdown(audio_html, unsafe_allow_html=True)
         except Exception as e:
             st.error(f"音声生成失敗: {e}")
