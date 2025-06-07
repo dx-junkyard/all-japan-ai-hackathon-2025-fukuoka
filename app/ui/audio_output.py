@@ -36,6 +36,10 @@ class AudioOutput:
     def speak(self, text: str) -> None:
         if not text:
             return
+
+        # Remove newline characters to avoid them being spoken aloud
+        text = text.replace("\n", " ")
+
         try:
             audio = self._synthesize(text)
             encoded = base64.b64encode(audio).decode("utf-8")
