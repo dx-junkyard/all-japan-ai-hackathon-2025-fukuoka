@@ -26,6 +26,13 @@ async def post_usermessage(request: Request) -> str:
     history = body.get("history", [])
     ai_response = ai_generator.create_response(message, history)
     logger.info(f"AI response: {ai_response}")
+
+    # Add prompt for continuing or ending the conversation
+    suffix = (
+        "お話を続ける場合はマイクを押してお話しください。" \
+        "お話を終える場合は\"評価\"ボタンを押して会話を終了してください"
+    )
+    ai_response = f"{ai_response} {suffix}"
     repo = DBClient()
     repo.insert_message("me",message)
     repo.insert_message("ai",ai_response)
