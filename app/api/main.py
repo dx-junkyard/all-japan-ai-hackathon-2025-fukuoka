@@ -23,7 +23,8 @@ async def post_usermessage(request: Request) -> str:
    
     ai_generator = AIClient()
     message = body.get("message", "")
-    ai_response = ai_generator.create_response(message)
+    history = body.get("history", [])
+    ai_response = ai_generator.create_response(message, history)
     logger.info(f"AI response: {ai_response}")
     repo = DBClient()
     repo.insert_message("me",message)

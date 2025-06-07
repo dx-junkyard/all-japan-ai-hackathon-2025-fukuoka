@@ -19,9 +19,9 @@ class ChatUI:
         self.audio_output = AudioOutput()
 
     @staticmethod
-    def call_api(text: str) -> str:
+    def call_api(text: str, history) -> str:
         try:
-            resp = requests.post(API_URL, json={"message": text})
+            resp = requests.post(API_URL, json={"message": text, "history": history})
             resp.raise_for_status()
             return resp.text.strip()
         except Exception as e:
@@ -41,7 +41,7 @@ class ChatUI:
 
         if "messages" not in st.session_state:
             st.session_state.messages = [
-                {"role": "assistant", "content": "こんにちは！チャットへようこそ。"}
+                {"role": "assistant", "content": "何かございましたか？"}
             ]
         if "voice_processed" not in st.session_state:
             st.session_state.voice_processed = False
@@ -51,7 +51,7 @@ class ChatUI:
             if text and not st.session_state.voice_processed:
                 st.session_state.voice_processed = True
                 st.session_state.messages.append({"role": "user", "content": text})
-                reply = self.call_api(text)
+                reply = self.call_api(text, st.session_state.messages)
                 st.session_state.messages.append({"role": "assistant", "content": reply})
                 st.session_state.speak_text = reply
                 self._rerun()
