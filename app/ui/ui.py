@@ -69,15 +69,10 @@ class ChatUI:
         with mic_col:
             audio = self.voice.record_audio()
         with rate_col:
-            if st.button("評価"):
-                st.session_state.show_rating = True
-
-        if st.session_state.get("show_rating"):
-            with st.modal("評価"):
+            with st.popover("評価"):
                 st.markdown("★5")
                 st.markdown("神対応でした。")
-                if st.button("OK", key="rate_ok"):
-                    st.session_state.show_rating = False
+                st.button("OK", key="rate_ok")
 
         if len(audio) > 0:
             st.session_state.last_audio = audio
