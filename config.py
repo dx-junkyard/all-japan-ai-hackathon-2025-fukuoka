@@ -1,10 +1,18 @@
 # config.py
 # ここに設定を記載します
 
+import os
+from dotenv import load_dotenv
+
+# .env ファイルが存在すれば読み込む
+load_dotenv()
+
 # LINEチャネルアクセストークン（LINE Developersで発行されたトークン）
 LINE_CHANNEL_ACCESS_TOKEN = "basicコースでは使いません"
 
-AI_MODEL = "schroneko/llama-3.1-swallow-8b-instruct-v0.1:latest"
+# OpenAI の Chat Completions API で使用するモデル名
+# `.env` の OPENAI_MODEL があればそれを、無ければ `gpt-4o` を採用
+AI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 
 AI_URL = "http://host.docker.internal:11434"
 
