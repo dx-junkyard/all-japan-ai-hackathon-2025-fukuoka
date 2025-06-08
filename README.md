@@ -104,7 +104,9 @@
 
 #### 音声入力を利用するには
 
-1. `.env.example` をコピーして `.env` を作成し、`OPENAI_API_KEY` を設定します
+1. `.env.example` をコピーして `.env` を作成し、`OPENAI_API_KEY` を設定します。
+   このキーは音声認識とAI応答の生成の両方で使用されます。
+   必要に応じて `OPENAI_MODEL` (デフォルト: `gpt-4o`) も設定してください
 2. ブラウザがマイクへのアクセスを求めたら許可してください。録音はブラウザ側で行われるため、Dockerコンテナからホストのマイクを参照する必要はありません
 3. 音声の変換には `ffmpeg` が必要です。Docker イメージでは自動でインストールされます。ローカル環境で実行する場合は `ffmpeg` をインストールしてください
 4. 音声認識で得られたテキストはログに出力されます
@@ -116,7 +118,8 @@ VOICEVOX コンテナを利用して音声を生成し、ブラウザ上で再�
 プロンプトは `static/prompt.txt` を編集することでカスタマイズできます。
 
 #### LLM について
-Ollama を使用して LLM をローカルで実行します。モデル `schroneko/llama-3.1-swallow-8b-instruct-v0.1` を `ollama run` しておくか、`ollama serve` を起動してから Docker を立ち上げてください。
+OpenAI API を利用してチャット応答を生成します。`.env` に設定した `OPENAI_API_KEY` と
+`OPENAI_MODEL` が使用されます。
 
 ### APIの直接利用
 
